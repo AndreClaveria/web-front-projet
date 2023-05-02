@@ -1,0 +1,43 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  align-items: center;
+
+  box-sizing: border-box; /* Add this property */
+
+  .left__part {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    padding: 0 2rem; /* Add some padding to create space between the left column and the form */
+
+    .form__wrapper {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+
+  .right__part {
+    width: 55.5%;
+    background-color: $white_color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      /* Add a media query to adjust the layout on smaller screens */
+      display: none; /* Hide the right column on smaller screens */
+    }
+
+    img {
+      width: 150px;
+      height: auto;
+    }
+  }
+}

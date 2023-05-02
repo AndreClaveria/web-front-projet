@@ -1,15 +1,14 @@
+import Header from "@/components/partials/Header";
+import styles from "./index.module.scss";
 const Index = ({ children }) => {
-  
   return (
     <>
-        <div>
-            Bonjour
-        </div>
-        <div>
-            {children}
-        </div>
+      <Header />
+      <div className={styles.wrapper}>
+        <div>{children}</div>
+      </div>
     </>
   );
-}
+};
 
 export default Index;

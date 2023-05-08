@@ -54,7 +54,7 @@ const Index = () => {
         lastName: user.user.lastName,
         email: user.user.email,
       });
-      router.push("/account/profil");
+      router.push("/account/profil", undefined, { shallow: false });
     }
   }, [token, user]);
 

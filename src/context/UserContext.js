@@ -18,6 +18,11 @@ export const UserContextProvider = ({ children }) => {
 
   const [isLogged, setIsLogged] = useState(false);
 
+  if (!user) {
+    return <Loading />;
+  }
+
+
   const { data, error, loading, fetchData } = useFetch({
     url: "/api/v1/user",
     method: "GET",
@@ -50,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
     setIsLogged(false);
     setUser({});
     localStorage.removeItem("token");
-    router.push("/");
+    router.push("/", undefined, { shallow: false });
   };
   const updateUser = (data) => {
     setUser(data);

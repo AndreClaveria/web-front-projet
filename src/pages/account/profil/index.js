@@ -26,6 +26,16 @@ const Index = () => {
     setShowModal(false);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("token : ", localStorage.getItem("token"));
+    if (token) {
+      setToken(token);
+    } else {
+      router.push("/auth/register", undefined, { shallow: false });
+    }
+  }, []);
+
   const {
     data: dataUpdate,
     error: errorUpdate,
@@ -53,7 +63,30 @@ const Index = () => {
   if (errorUpdate) console.log(errorUpdate);
 
   const handleChange = (e) => {
-    setUserForm({ ...userForm, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name.startsWith("address.")) {
+      setUserForm({
+        ...userForm,
+        address: {
+          ...userForm.address,
+          [name.split(".")[1]]: value,
+        },
+      });
+    } else if (name.startsWith("freelance.")) {
+      setUserForm({
+        ...userForm,
+        freelance: {
+          ...userForm.freelance,
+          [name.split(".")[1]]: value,
+        },
+      });
+    } else {
+      setUserForm({
+        ...userForm,
+        [name]: value,
+      });
+    }
+    console.log("user : ", userForm);
   };
 
   const submitForm = (e) => {
@@ -71,11 +104,11 @@ const Index = () => {
       <div className={styles.centered1}>
         {showModal && (
           <Modal onClose={handleCloseModal}>
-            <Title title="Modifier son profile" Level="h1" />
             <form
               onSubmit={(e) => {
                 submitForm(e);
               }}>
+              <Title title="Modifier son profile" Level="h1" />
               <div className={styles.flexContainer}>
                 <Input
                   label="firstName"
@@ -95,17 +128,83 @@ const Index = () => {
                   placeholder="enter your lastName"
                   onChange={(e) => handleChange(e)}
                 />
+
+                <Input
+                  label="Phone"
+                  type="phone"
+                  name="phone"
+                  placeholder="veuillez saisir votre téléphone"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.phone}
+                />
+
+                <Input
+                  label="email"
+                  type="text"
+                  name="email"
+                  value={userForm.email}
+                  isRequired={true}
+                  placeholder="enter your email"
+                  onChange={(e) => handleChange(e)}
+                />
+                <Input
+                  label="Street"
+                  type="text"
+                  name="address.street"
+                  placeholder="Enter your street address"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.address.street}
+                />
+
+                <Input
+                  label="Zip Code"
+                  type="text"
+                  name="address.zipCode"
+                  placeholder="Enter your zip code"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.address.zipCode}
+                />
+
+                <Input
+                  label="City"
+                  type="text"
+                  name="address.city"
+                  placeholder="Enter your city"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.address.city}
+                />
+
+                <Input
+                  label="Rate"
+                  type="text"
+                  name="freelance.rate"
+                  placeholder="Enter your rating"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.freelance.rate}
+                />
+
+                <Input
+                  label="Year of Experience"
+                  type="text"
+                  name="freelance.yearOfExperience"
+                  placeholder="Enter your year of experience"
+                  required={true}
+                  onChange={(e) => handleChange(e)}
+                  value={userForm.freelance.yearOfExperience}
+                />
+
+                <Button
+                  type="submit"
+                  title="modifier"
+                  btn="btn"
+                  className="btn__primary"
+                />
               </div>
-              <Input
-                label="email"
-                type="text"
-                name="email"
-                value={userForm.email}
-                isRequired={true}
-                placeholder="enter your email"
-                onChange={(e) => handleChange(e)}
-              />
-              <Button type="submit" title="modifier" className="btn__primary" />
             </form>
           </Modal>
         )}
@@ -114,23 +213,39 @@ const Index = () => {
           <>
             <div className={styles.centered}>
               <p className={styles.flexItem}>
-                Type d'utilisateur: <span>{user.userType}</span>
+                Type d'utilisateur : <span> {user.userType}</span>
               </p>
               <div className={styles.flexContainer}>
                 <p className={styles.flexItem}>
-                  Prénom: <span>{user.firstName}</span>
+                  Rating : <span> {user.freelance?.rate} / 5</span>
+                </p>
+                <p className={styles.flexItem}>
+                  Prénom : <span> {user.firstName}</span>
                 </p>
 
                 <p className={styles.flexItem}>
-                  Nom de famille: <span>{user.lastName}</span>
+                  Nom de famille : <span> {user.lastName}</span>
                 </p>
-              </div>
-              <div className={styles.flexContainer}>
+
                 <p className={styles.flexItem}>
-                  Phone: <span>{user.phone}</span>
+                  Phone : <span> {user.phone}</span>
                 </p>
                 <p className={styles.flexItem}>
-                  Email: <span>{user.email}</span>
+                  Email : <span> {user.email}</span>
+                </p>
+                <p className={styles.flexItem}>
+                  Année d'expérience :{" "}
+                  <span> {user.freelance?.yearOfExperience} ans</span>
+                </p>
+
+                <p className={styles.flexItem}>
+                  Rue : <span> {user.address?.street}</span>
+                </p>
+                <p className={styles.flexItem}>
+                  Code postal : <span> {user.address?.zipCode}</span>
+                </p>
+                <p className={styles.flexItem}>
+                  Ville : <span> {user.address?.city}</span>
                 </p>
               </div>
             </div>

@@ -13,7 +13,7 @@ const Index = () => {
   const { isLogged, user, updateUser } = useContext(UserContext);
 
   const [token, setToken] = useState();
-  
+
   const [userForm, setUserForm] = useState({
     name: "",
     status: "SAS",
@@ -38,7 +38,7 @@ const Index = () => {
     if (token) {
       setToken(token);
     } else {
-      router.push("/auth/register");
+      router.push("/auth/register", undefined, { shallow: false });
     }
   }, []);
 
@@ -72,7 +72,7 @@ const Index = () => {
     console.log(userForm);
     if (data) {
       console.log("data : ", data);
-      localStorage.setItem("token", data.token);
+      router.push("/", undefined, { shallow: false });
     }
   };
 

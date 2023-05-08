@@ -12,7 +12,7 @@ const Index = () => {
   const router = useRouter();
 
   const [clickError, setClickError] = useState(false);
-  
+
   const [userForm, setUserForm] = useState({
     firstName: "",
     lastName: "",
@@ -61,26 +61,32 @@ const Index = () => {
 
   const submitRegister = async (e) => {
     e.preventDefault();
-    await fetchData();
-    console.log(userForm);
 
-    if (data.success) {
+    const response = await fetchData();
+    console.log(userForm);
+    console.log("reponse : ", response);
+    console.log("data : ", data);
+
+    if (data && data.success) {
       setClickError(false);
       console.log("data : ", data);
       console.log(data.token);
       localStorage.setItem("token", data.token);
+
       if (userForm.userType === "FREELANCE") {
-        router.push("register/freelance");
+        router.push("register/freelance", undefined, { shallow: false });
       } else if (userForm.userType === "COMPANY") {
-        console.log(data.token);
-        router.push("register/company");
+        console.log(response.data.token);
+        router.push("register/company", undefined, { shallow: false });
       }
     } else {
       setClickError(true);
     }
   };
   if (loading) return <Loading />;
-
+  if (error) {
+    error.message = error.message;
+  }
   return (
     <>
       <div className={styles.wrapper}>
@@ -186,12 +192,7 @@ const Index = () => {
               handleClick={(e) => submitRegister(e)}
             />
           </form>
-          {clickError && (
-            <Notification
-              type="warning"
-              message="Cliquez de nouveau ou remplissez les cases manquantes"
-            />
-          )}
+          {error && <Notification type="warning" message={error.message} />}
         </div>
       </div>
     </>

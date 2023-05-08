@@ -18,7 +18,7 @@ const Index = () => {
 
   const [userForm, setUserForm] = useState({
     yearOfExperience: "",
-
+    rate: "",
     user: user.firstName,
   });
 
@@ -35,9 +35,11 @@ const Index = () => {
     if (token) {
       setToken(token);
     } else {
-      router.push("/auth/register");
+      router.push("/auth/register", undefined, { shallow: false });
     }
   }, []);
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,12 +60,10 @@ const Index = () => {
   const submitRegister = (e) => {
     e.preventDefault();
     fetchData();
-    console.log(userForm);
     if (data.success) {
       setClickError(false);
       console.log("data : ", data);
-      localStorage.setItem("token", data.token);
-      router.push("/");
+      router.push("/", undefined, { shallow: false });
     } else {
       setClickError(true);
     }
@@ -71,8 +71,23 @@ const Index = () => {
 
   return (
     <>
+      <p></p>
       <Title title="Company" Level="h1" />
       <form onSubmit={(e) => submitRegister(e)}>
+        <Select
+          label="Rate"
+          name="rate"
+          value={userForm.rate}
+          isRequired={true}
+          options={[
+            { label: "1", value: 1 },
+            { label: "2", value: 2 },
+            { label: "3", value: 3 },
+            { label: "4", value: 4 },
+            { label: "5", value: 5 },
+          ]}
+          onChange={(e) => handleChange(e)}
+        />
         <Select
           label="Expérience d'âge"
           name="yearOfExperience"

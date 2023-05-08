@@ -7,7 +7,7 @@ import { useState } from "react";
 import RegisterForm from "@/components/partials/RegisterForm";
 import Modal from "@/components/UI/Modal";
 const Index = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);  
 
   const handleButtonClick = () => {
     setShowModal(true);

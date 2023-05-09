@@ -48,6 +48,18 @@ const Index = () => {
     token: token,
   });
 
+  // const {
+  //   data: dataUpdateF,
+  //   error: errorUpdateF,
+  //   loading: loadingUpdateF,
+  //   fetchData: fetchDataUpdateF,
+  // } = useFetch({
+  //   url: "/api/v1/freelance",
+  //   method: "PUT",
+  //   body: userForm,
+  //   token: token,
+  // });
+
   useEffect(() => {
     setUserForm(user);
   }, [user]);
@@ -69,14 +81,6 @@ const Index = () => {
         ...userForm,
         address: {
           ...userForm.address,
-          [name.split(".")[1]]: value,
-        },
-      });
-    } else if (name.startsWith("freelance.")) {
-      setUserForm({
-        ...userForm,
-        freelance: {
-          ...userForm.freelance,
           [name.split(".")[1]]: value,
         },
       });
@@ -178,27 +182,7 @@ const Index = () => {
                   value={userForm.address.city}
                 />
 
-                <Input
-                  label="Rate"
-                  type="text"
-                  name="freelance.rate"
-                  placeholder="Enter your rating"
-                  required={true}
-                  onChange={(e) => handleChange(e)}
-                  value={userForm.freelance.rate}
-                />
-
-                <Input
-                  label="Year of Experience"
-                  type="text"
-                  name="freelance.yearOfExperience"
-                  placeholder="Enter your year of experience"
-                  required={true}
-                  onChange={(e) => handleChange(e)}
-                  value={userForm.freelance.yearOfExperience}
-                />
-
-                <Button
+                 <Button
                   type="submit"
                   title="modifier"
                   btn="btn"
@@ -217,9 +201,6 @@ const Index = () => {
               </p>
               <div className={styles.flexContainer}>
                 <p className={styles.flexItem}>
-                  Rating : <span> {user.freelance?.rate} / 5</span>
-                </p>
-                <p className={styles.flexItem}>
                   Prénom : <span> {user.firstName}</span>
                 </p>
 
@@ -233,20 +214,53 @@ const Index = () => {
                 <p className={styles.flexItem}>
                   Email : <span> {user.email}</span>
                 </p>
-                <p className={styles.flexItem}>
-                  Année d'expérience :{" "}
-                  <span> {user.freelance?.yearOfExperience} ans</span>
-                </p>
+                {user.userType === "FREELANCE" && (
+                  <>
+                    <p className={styles.flexItem}>
+                      Rating : <span> {user.freelance?.rate} / 5</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Année d'expérience :{" "}
+                      <span> {user.freelance?.yearOfExperience} ans</span>
+                    </p>
 
-                <p className={styles.flexItem}>
-                  Rue : <span> {user.address?.street}</span>
-                </p>
-                <p className={styles.flexItem}>
-                  Code postal : <span> {user.address?.zipCode}</span>
-                </p>
-                <p className={styles.flexItem}>
-                  Ville : <span> {user.address?.city}</span>
-                </p>
+                    <p className={styles.flexItem}>
+                      Rue : <span> {user.address?.street}</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Code postal : <span> {user.address?.zipCode}</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Ville : <span> {user.address?.city}</span>
+                    </p>
+                  </>
+                )}
+
+                {user.userType === "COMPANY" && (
+                  <>
+                    <p className={styles.flexItem}>
+                      Entreprise : <span> {user.company?.name}</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Status : <span> {user.company?.status}</span>
+                    </p>
+
+                    <p className={styles.flexItem}>
+                      Siret : <span> {user.company?.siret}</span>
+                    </p>
+
+                    <p className={styles.flexItem}>
+                      Rue : <span> {user.company?.address?.street}</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Code postal :{" "}
+                      <span> {user.company?.address?.zipCode}</span>
+                    </p>
+                    <p className={styles.flexItem}>
+                      Ville : <span> {user.company?.address?.city}</span>
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </>

@@ -142,6 +142,14 @@ const Index = () => {
           onChange={(e) => handleChange(e)}
           value={userForm.address.city}
         />
+
+        <Button
+          type="submit"
+          title="S'inscrire"
+          btn="btn"
+          className="btn__secondary"
+          handleClick={(e) => submitRegister(e)}
+        />
       </form>
     </>
   );

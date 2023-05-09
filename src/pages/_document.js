@@ -16,8 +16,8 @@ export default function Document() {
             width: 100%;
             height: 100%;
             background-color: rgba(255, 255, 255, 0.8);
+           z-index: -1
            
-            z-index: -1;
           }
           .circle {
             position: absolute;
@@ -28,7 +28,7 @@ export default function Document() {
             height: 1000px;
             border-radius: 50%;
             background-image: radial-gradient(#5c68d3, #9869bc);
-           
+            
           }
 
           .circle2 {
@@ -40,7 +40,7 @@ export default function Document() {
             height: 1000px;
             border-radius: 50%;
             background-image: radial-gradient(#5c68d3, #9869bc);
-           
+       
           }
         `}
         </style>

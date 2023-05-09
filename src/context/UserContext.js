@@ -1,6 +1,7 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
+import Loading from "@/components/UI/Loading";
 
 const UserContext = createContext({
   isLogged: false,
@@ -18,11 +19,6 @@ export const UserContextProvider = ({ children }) => {
 
   const [isLogged, setIsLogged] = useState(false);
 
-  if (!user) {
-    return <Loading />;
-  }
-
-
   const { data, error, loading, fetchData } = useFetch({
     url: "/api/v1/user",
     method: "GET",
@@ -30,12 +26,23 @@ export const UserContextProvider = ({ children }) => {
     token: token,
   });
 
+  const isMountedRef = useRef(false);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("token userConx : ", token);
-    console.log("isLogged : ", isLogged);
+
     if (token && !isLogged) {
       setToken(token);
+    }
+
+    if (token) {
       fetchData();
     }
   }, [token]);
@@ -57,17 +64,31 @@ export const UserContextProvider = ({ children }) => {
     localStorage.removeItem("token");
     router.push("/", undefined, { shallow: false });
   };
+
   const updateUser = (data) => {
     setUser(data);
   };
 
-  const context = {
-    login,
-    logout,
-    user,
-    isLogged,
-    updateUser,
-  };
+  const context = useMemo(
+    () => ({
+      login,
+      logout,
+      user,
+      isLogged,
+      updateUser,
+    }),
+    [login, logout, user, isLogged, updateUser]
+  );
+
+  useEffect(() => {
+    if (isMountedRef.current) {
+      console.log("user conx : ", user);
+    }
+  }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <UserContext.Provider value={context}>{children}</UserContext.Provider>

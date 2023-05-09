@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const useFetch = ({ url, method, body, token }) => {
   const [data, setData] = useState({});
@@ -7,7 +7,7 @@ const useFetch = ({ url, method, body, token }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    console.log(`${process.env.NEXT_PUBLIC_API_URL}${url}`);
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
         headers: {
@@ -29,6 +29,7 @@ const useFetch = ({ url, method, body, token }) => {
     } catch (error) {
       console.log(error);
       setError(error);
+      return;
     } finally {
       setTimeout(() => {
         setLoading(false);

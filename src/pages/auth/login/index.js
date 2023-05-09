@@ -93,7 +93,12 @@ const Index = () => {
           onChange={(e) => handleChange(e)}
           value={userForm.password}
         />
-        <Button type="submit" title="Se connecter" className="btn__secondary" />
+        <Button
+          type="submit"
+          title="Se connecter"
+          btn="btn"
+          className="btn__secondary"
+        />
       </form>
       {error && <Notification type="warning" message={error.message} />}
       <p>

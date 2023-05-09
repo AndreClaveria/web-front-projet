@@ -9,7 +9,7 @@ import Button from "@/components/UI/Button";
 const Index = () => {
   const { user, isLogged, logout } = useContext(UserContext);
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log(user);
+
   useEffect(() => {
     if (user && user.isAdmin) {
       setIsAdmin(true);
@@ -38,7 +38,7 @@ const Index = () => {
             </li>
             {isAdmin && (
               <li className={styles.navListItem}>
-                <Link href="#">Admin Panel</Link>
+                <Link href="/admin">Admin Panel</Link>
               </li>
             )}
             <li className={styles.navListItem}>

@@ -1,0 +1,24 @@
+.tab {
+  border-collapse: collapse;
+  width: 100%;
+
+  margin-bottom: 1rem;
+  background-color: white;
+  .tabl,
+  td {
+    padding-top: 10%;
+
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  th {
+    background-color: #f8f9f6;
+    font-weight: bold;
+    color: #212529;
+  }
+
+  tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+}

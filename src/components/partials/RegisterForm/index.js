@@ -76,14 +76,14 @@ const Index = () => {
       if (userForm.userType === "FREELANCE") {
         router.push("register/freelance", undefined, { shallow: false });
       } else if (userForm.userType === "COMPANY") {
-        console.log(response.data.token);
+        console.log(data.token);
         router.push("register/company", undefined, { shallow: false });
       }
     } else {
       setClickError(true);
     }
   };
-  if (loading) return <Loading />;
+
   if (error) {
     error.message = error.message;
   }
@@ -91,6 +91,7 @@ const Index = () => {
     <>
       <div className={styles.wrapper}>
         <div className={styles.form__wrapper}>
+          <Loading isLoad={loading} />
           <Title title="Inscription" Level="h1" />
           <form onSubmit={(e) => submitRegister(e)}>
             <Input
